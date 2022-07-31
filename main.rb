@@ -1,39 +1,30 @@
-require 'discordrb'
+require 'telegram/bot'
 
-# made by @lisqu16, and @programistazpolski
+token = "YOUR_TOKEN_HERE";
 
-bot = Discordrb::Commands::CommandBot.new token: '', prefix: 's!'; # ej a co gdyby w wersji na githuba,
-# jako token wsadzić link do rickrolla zakodowany w base64 żeby wyglądał jak prawdziwy token?
-# XDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+Telegram::Bot::Client.run(token) do |bot|
+  bot.listen do |message|
+    case message.text
+    when '/start'
+      bot.api.send_message(chat_id: message.chat.id, text: "Hello, #{message.from.first_name}, remember to comment like and subscribe and to tell
+ me in the comments why you think that navroad nexo avio is the best tablet ever made for a chance to win a chance to get a navroad tablet")
 
-#bot.command :ping do |event|
-    #m = event.respond "h"
-    #event.channel.send_embed do |embed|
-        #embed.colour = 0x000000
-        #embed.description = "Ping: #{Time.now - event.timestamp} ms\n\nWersja Ruby: #{RUBY_VERSION}"
-        #embed.timestamp = Time.now
-    #end
-    #m.delete
-    #nil
-#end
+      Thread.new {
+        deadline = Time.new(2022, 8, 5, 23, 17, 50, "+01:00")
+        while Time.now < deadline do
+          puts Time.now.to_i, deadline.to_i
+          d = deadline.to_i - Time.now.to_i
+          seconds = (d % 60).round
+          minutes = (d % (60 * 60) / 60).round
+          hours = (d % (60 * 60 * 24) / (60 * 60)).round
+          days = (d / (60 * 60 * 24)).round
+          weeks = (days / 7).round
+          months = (weeks / 4).round
 
-Thread.new { 
-    # vacacje
-    deadline = Time.new(2021, 06, 25, 13, 30, 0, "+02:00")
-    m = bot.send_message "", "h"
-    while Time.now < deadline do 
-        puts Time.now.to_i, deadline.to_i
-        d = deadline.to_i - Time.now.to_i
-        seconds = (d % 60).round
-        minutes = (d % (60 * 60) / 60).round 
-        hours = (d % (60 * 60 * 24) / (60 * 60)).round
-        days = (d / (60 * 60 * 24)).round
-        weeks = (days / 7).round
-        months = (weeks / 4).round
-        m.edit "Pozostało #{days} dni, #{hours} godzin, #{minutes} minut i #{seconds} sekund! :tada:
-    To około: #{weeks} tygodni, bądź #{months} miesięcy!"
-        sleep 60
+          bot.api.send_message(chat_id: message.chat.id, text: "Pozostało #{days} dni, #{hours} godzin, #{minutes} minut i #{seconds} sekund do unlocku poco")
+          sleep 10800
+        end
+      }
     end
-}
-
-bot.run
+  end
+end
